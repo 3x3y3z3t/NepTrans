@@ -17,6 +17,9 @@ namespace NepTrans
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
+
+            Console.Write("\r\nPress Enter key to exit...");
+            Console.Read();
         }
     }
 }

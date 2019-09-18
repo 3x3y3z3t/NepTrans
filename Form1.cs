@@ -18,24 +18,25 @@ namespace NepTrans
         const string game00000 = @"\GAME00000";
         const string eventScripts = @"\event\script";
 
-        //NepEntryManager MainGameEntryManager;
+        NepEntryManager MainGameEntryManager;
 
-        const string recordSeparator =
-            //"\u2015\u2015\u2015\u2015\u2015\u2015\u2015\u2015\u2015\u2015" +
-            //"\u2015\u2015\u2015\u2015\u2015\u2015\u2015\u2015\u2015\u2015" +
-            //"\u2015\u2015\u2015\u2015\u2015\u2015\u2015\u2015\u2015\u2015" +
-            //"\u2015\u2015\u2015\u2015\u2015\u2015\u2015\u2015\u2015\u2015";
-            "----------------------------------------";
 
-        Dictionary<string, Record> Entry;
-        string CurrentEntryPath;
+        //Dictionary<string, Record> Entry;
+        //string CurrentEntryPath;
+
+        Entry CurrentEntry = null;
 
         public Form1()
         {
             InitializeComponent();
 
-            //MainGameEntryManager = new NepEntryManager(defaultRootDir);
+            MainGameEntryManager = new NepEntryManager("nep_rb1", defaultRootDir, nepRb1RootDir);
 
+            treeDirStruct.Nodes.Add(MainGameEntryManager.EntriesTree);
+            
+
+            SetupProgressDisplay();
+            UpdateProgressDisplay();
 
 
 
@@ -43,398 +44,110 @@ namespace NepTrans
             btnUpdate.Enabled = false;
             btnSaveEntry.Enabled = false;
 
-            NepErrCode err = VerifyDirectoryStruct();
-
-            if (err != NepErrCode.NoError)
-            {
-                Console.WriteLine(NepError.GetErrorString(err));
-            }
-
+      
             treeDirStruct.ExpandAll();
 
-            Record r = new Record();
-
-
-            string k = tbTextVie.Text;
-
-
-
-
-            //treeDirStruct.Nodes.Add("root", "nep_rb1_data");
-            //treeDirStruct.Nodes["root"].Nodes.Add("game00000", "GAME00000");
-
-
-
-
-
-
-
-
-
         }
 
-        
-
-
-
-
-
-
-
-
-
-        private NepErrCode VerifyDirectoryStruct()
+        private bool SetupProgressDisplay()
         {
-            string rootDir = defaultRootDir;
-            tbRootDirectory.Text = rootDir;
+            int gameCount = MainGameEntryManager.GameScriptRecordCount;
+            int systemCount = MainGameEntryManager.SystemScriptRecordCount;
+            int overallCount = gameCount + systemCount;
 
-            string currentDir = rootDir;
+            if (gameCount == 0 && systemCount == 0)
+                return false; // do nothing, use initial setup (50%);
 
-            // ===== root =====
-            if (!Directory.Exists($"{rootDir}{nepRb1RootDir}"))
+            if (gameCount == 0)
             {
-                return NepErrCode.RootDirNotFound;
+                pbGameScript.Width = pbGameScript.MinimumSize.Width;
+                pbSystemScript.Width = pbOverall.Width - pbGameScript.Width - 6;
             }
-            treeDirStruct.Nodes.Add("root", "nep_rb1");
-            currentDir += rootDir;
+            else if (systemCount == 0)
+            {
+                pbSystemScript.Width = pbSystemScript.MinimumSize.Width;
+                pbGameScript.Width = pbOverall.Width - pbSystemScript.Width - 6;
+            }
+            else
+            {
+                float percent = (float)gameCount / overallCount;
+                int pbGameScriptW = (int)(pbOverall.Width * percent);
+                if (pbGameScriptW < pbGameScript.MinimumSize.Width)
+                    pbGameScriptW = pbGameScript.MinimumSize.Width;
 
-            // ===== data =====
-            if (!Directory.Exists($"{rootDir}{nepRb1RootDir}{dataEngRootDir}"))
-            {
-                return NepErrCode.EngDirNotFound;
-            }
-            if (!Directory.Exists($"{rootDir}{nepRb1RootDir}{dataJapRootDir}"))
-            {
-                return NepErrCode.JapDirNotFound;
-            }
-            treeDirStruct.Nodes["root"].Nodes.Add("data", "data");
-            currentDir += "data";
-
-            // ===== GAME00000 =====
-            if (!Directory.Exists($"{rootDir}{nepRb1RootDir}{dataEngRootDir}{game00000}"))
-            {
-                return NepErrCode.GameScriptDirNotFound;
-            }
-            if (!Directory.Exists($"{rootDir}{nepRb1RootDir}{dataJapRootDir}{game00000}"))
-            {
-                return NepErrCode.GameScriptDirNotFound;
-            }
-            treeDirStruct.Nodes.Find("data", true)[0].Nodes.Add("game00", "GAME00000");
-            currentDir += "GAME00000";
-
-            // ===== event\script =====
-            if (!Directory.Exists($"{rootDir}{nepRb1RootDir}{dataEngRootDir}{game00000}{eventScripts}"))
-            {
-                return NepErrCode.GameScriptDirNotFound;
-            }
-            if (!Directory.Exists($"{rootDir}{nepRb1RootDir}{dataJapRootDir}{game00000}{eventScripts}"))
-            {
-                return NepErrCode.GameScriptDirNotFound;
-            }
-            treeDirStruct.Nodes.Find("game00", true)[0].Nodes.Add("event", "event");
-            treeDirStruct.Nodes.Find("event", true)[0].Nodes.Add("script", "script");
-
-            // ===== scripts =====
-            DirectoryInfo[] dirEng = new DirectoryInfo($"{rootDir}{nepRb1RootDir}{dataEngRootDir}{game00000}{eventScripts}").GetDirectories();
-            DirectoryInfo[] dirJap = new DirectoryInfo($"{rootDir}{nepRb1RootDir}{dataJapRootDir}{game00000}{eventScripts}").GetDirectories();
-
-            List<string> folderEng = new List<string>();
-            foreach (DirectoryInfo info in dirEng)
-            {
-                folderEng.Add(info.Name);
-            }
-            List<string> folderJap = new List<string>();
-            foreach (DirectoryInfo info in dirJap)
-            {
-                folderJap.Add(info.Name);
-            }
-
-            List<string> empty = new List<string>();
-            List<string> gamescripts = new List<string>();
-            List<string> mismatchEng = new List<string>();
-            List<string> mismatchJap = new List<string>();
-            foreach (string name in folderEng)
-            {
-                if (File.Exists($"{rootDir}{nepRb1RootDir}{dataEngRootDir}{game00000}{eventScripts}\\{name}\\main.cl3.txt"))
+                int pbSystemScriptW = pbOverall.Width - pbGameScriptW - 6;
+                if (pbSystemScriptW < pbSystemScript.MinimumSize.Width)
                 {
-                    bool b = folderJap.Remove(name);
-                    if (b)
-                    {
-                        gamescripts.Add(name);
-                        treeDirStruct.Nodes.Find("script", true)[0].Nodes.Add(name, name);
-                    }
-                    else
-                    {
-                        mismatchEng.Add(name);
-                    }
+                    pbSystemScriptW = pbSystemScript.MinimumSize.Width;
+                    pbGameScriptW = pbOverall.Width - pbSystemScriptW - 6;
                 }
-                else
-                {
-                    empty.Add(name);
-                    folderJap.Remove(name);
-                    continue;
-                }
+                pbGameScript.Width = pbGameScriptW;
+                pbSystemScript.Width = pbSystemScriptW;
             }
-            mismatchJap.AddRange(folderJap);
+            pbSystemScript.Location = new Point(pbGameScript.Location.X + pbGameScript.Width + 6, pbSystemScript.Location.Y);
+            lblSystemScriptHeader.Location = new Point(pbSystemScript.Location.X, lblSystemScriptHeader.Location.Y);
+            lblSystemScriptStat.Location = new Point(lblSystemScriptHeader.Location.X + 80, lblSystemScriptStat.Location.Y);
 
-            // TODO: allow mismatch entries edit;
-            if (mismatchEng.Count > 0)
-            {
-                string mm = "";
-                foreach (string s in mismatchEng)
-                    mm += s + "\r\n";
-                Console.WriteLine($"Mismatch found in data_eng:\r\n{mm}");
-            }
-            if (mismatchJap.Count > 0)
-            {
-                string mm = "";
-                foreach (string s in mismatchJap)
-                    mm += s + "\r\n";
-                Console.WriteLine($"Mismatch found in data_jap:\r\n{mm}");
-            }
-            if (empty.Count > 0)
-            {
-                string mm = "";
-                foreach (string s in empty)
-                    mm += s + "\r\n";
-                Console.WriteLine($"{empty.Count} empty entries found: \r\n{mm}");
-            }
+            pbOverall.Maximum = overallCount;
+            pbGameScript.Maximum = gameCount;
+            pbSystemScript.Maximum = systemCount;
 
-
-            // ===== SYSTEM00000 =====
-            if (!Directory.Exists($"{rootDir}{nepRb1RootDir}{dataEngRootDir}\\SYSTEM00000"))
-            {
-                return NepErrCode.GameScriptDirNotFound;
-            }
-            if (!Directory.Exists($"{rootDir}{nepRb1RootDir}{dataJapRootDir}\\SYSTEM00000"))
-            {
-                return NepErrCode.GameScriptDirNotFound;
-            }
-            treeDirStruct.Nodes["root"].Nodes["data"].Nodes.Add("sys00", "SYSTEM00000");
-
-
-
-
-
-            if (!Directory.Exists($"{rootDir}{nepRb1RootDir}{dataVieRootDir}"))
-            {
-                Console.WriteLine("Translation Root directory not found and will be created.");
-                Directory.CreateDirectory($"{rootDir}{nepRb1RootDir}{dataVieRootDir}");
-            }
-            if (!Directory.Exists($"{rootDir}{nepRb1RootDir}{dataVieRootDir}{game00000}"))
-            {
-                Console.WriteLine("Translation Game Script directory not found and will be created.");
-                Directory.CreateDirectory($"{rootDir}{nepRb1RootDir}{dataVieRootDir}{game00000}");
-            }
-            if (!Directory.Exists($"{rootDir}{nepRb1RootDir}{dataVieRootDir}{game00000}{eventScripts}"))
-            {
-                Console.WriteLine("Translation Game Script script directory not found and will be created.");
-                Directory.CreateDirectory($"{rootDir}{nepRb1RootDir}{dataVieRootDir}{game00000}{eventScripts}");
-            }
-            DirectoryInfo gamescriptInfo = new DirectoryInfo($"{rootDir}{nepRb1RootDir}{dataVieRootDir}{game00000}{eventScripts}");
-            int count = 0;
-            foreach (string s in gamescripts)
-            {
-                if (!Directory.Exists($"{rootDir}{nepRb1RootDir}{dataVieRootDir}{game00000}{eventScripts}\\{s}"))
-                {
-                    ++count;
-                    Directory.CreateDirectory($"{rootDir}{nepRb1RootDir}{dataVieRootDir}{game00000}{eventScripts}\\{s}");
-                }
-            }
-            Console.WriteLine($"Written {count} entries in gamescript.");
-
-            if (!Directory.Exists($"{rootDir}{nepRb1RootDir}{dataVieRootDir}SYSTEM00000\\"))
-            {
-                Console.WriteLine("Translation System Script directory not found and will be created.");
-                Directory.CreateDirectory($"{rootDir}{nepRb1RootDir}{dataVieRootDir}SYSTEM00000\\");
-            }
-
-
-
-
-            return NepErrCode.NoError;
+            return true;
         }
 
-        private NepErrCode PopulateData()
+        private bool UpdateProgressDisplay()
         {
+            int gameCount = MainGameEntryManager.GameScriptRecordCount;
+            int systemCount = MainGameEntryManager.SystemScriptRecordCount;
+            int overallCount = gameCount + systemCount;
+            int gameCompleteCount = MainGameEntryManager.GameScriptCompletedRecordCount;
+            int systemCompleteCount = MainGameEntryManager.SystemScriptCompletedRecordCount;
+            int overallCompleteCount = gameCompleteCount + systemCompleteCount;
 
+            pbOverall.Value = overallCompleteCount;
+            pbGameScript.Value = gameCompleteCount;
+            pbSystemScript.Value = systemCompleteCount;
 
-            return NepErrCode.NoError;
+            lblOverallStat.Text = string.Format("{0}/{1} ({2:F2}%)", overallCompleteCount, overallCount, (float)overallCompleteCount / overallCount * 100);
+            lblGameScriptStat.Text = string.Format("{0}/{1} ({2:F2}%)", gameCompleteCount, gameCount, (float)gameCompleteCount / gameCount * 100);
+            lblSystemScriptStat.Text = string.Format("{0}/{1} ({2:F2}%)", systemCompleteCount, systemCount, (float)systemCompleteCount / systemCount * 100);
+            
+            return true;
         }
 
-        private void CrawlData()
+        private bool UpdateProgressDisplayCurrentEntry()
         {
-
-        }
-
-        private void LoadEntry(string _path)
-        {
-            // entry to be load is ALWAYS a match entry;
-
-            Entry = new Dictionary<string, Record>();
+            if (CurrentEntry == null)
             {
-                string s = $"{defaultRootDir}\\{_path}\\main.cl3.txt".Replace("data", "data_eng");
-                string[] engs = File.ReadAllLines(s, Encoding.GetEncoding("shift_jis"));
-                if (engs.Length > 0)
-                {
-                    string id = "";
-                    int index = 0;
-                    Record record = null;
-                    do
-                    {
-                        string line = engs[index];
-                        if (line.StartsWith("\u2015\u2015\u2015\u2015\u2015")) // "―――――";
-                        {
-                            if (record != null)
-                            {
-                                Entry[record.Id] = record;
-                            }
-                            record = new Record();
-                            id = line.Replace('\u2015', ' ').Trim();
-                            record.Id = id;
-                        }
-                        else
-                        {
-                            record.TextEng += line + "\r\n";
-                        }
-                        ++index;
-                    } while (!id.Equals("EOF"));
-                }
+                pbCurEntryStat.Value = 0;
+                pbCurEntryStat.Maximum = 0;
+                lblCurEntryStat.Text = "0/0 (0%)";
             }
-
+            else
             {
-                string s = $"{defaultRootDir}\\{_path}\\main.cl3.txt".Replace("data", "data_jap");
-                string[] japs = File.ReadAllLines(s, Encoding.GetEncoding("shift_jis"));
-                if (japs.Length > 0)
-                {
-                    string id = "";
-                    int index = 0;
-                    Record record = null;
-                    do
-                    {
-                        string line = japs[index];
-
-                        if (line.StartsWith("\u2015\u2015\u2015\u2015\u2015")) // "―――――";
-                        {
-                            if (record != null)
-                            {
-                                if (Entry.ContainsKey(record.Id))
-                                {
-                                    Entry[record.Id].TextJap = record.TextJap;
-                                }
-                                else
-                                {
-                                    Entry[record.Id] = record;
-                                }
-                            }
-                            record = new Record();
-                            id = line.Replace('\u2015', ' ').Trim();
-                            record.Id = id;
-                        }
-                        else
-                        {
-                            record.TextJap += line + "\r\n";
-                        }
-                        ++index;
-                    } while (!id.Equals("EOF"));
-                }
-            }
-
-            {
-                string s = $"{defaultRootDir}\\{_path}\\main.cl3.txt".Replace("data", "data_vie");
-                if (File.Exists(s))
-                {
-                    string[] vies = File.ReadAllLines(s, Encoding.UTF8);
-                    if (vies.Length > 0)
-                    {
-                        string id = "";
-                        int index = 0;
-                        Record record = null;
-                        do
-                        {
-                            string line = vies[index];
-
-                            //if (line.StartsWith("\u2015\u2015\u2015\u2015\u2015")) // "―――――";
-                            if (line.StartsWith("-----")) // "-----";
-                            {
-                                if (record != null)
-                                {
-                                    if (Entry.ContainsKey(record.Id))
-                                    {
-                                        record.TextVie = record.TextVie.TrimEnd(new char[] { '\r', '\n' });
-                                        Entry[record.Id].TextVie = record.TextVie;
-                                    }
-                                    else
-                                    {
-                                        Entry[record.Id] = record;
-                                    }
-                                }
-                                record = new Record();
-                                id = line.Replace('-', ' ').Trim();
-                                record.Id = id;
-                            }
-                            else
-                            {
-                                record.TextVie += line + "\r\n";
-                            }
-                            ++index;
-                        } while (!id.Equals("EOF"));
-                    }
-                }
-                else
-                {
-                    Console.WriteLine($"File {s} doesn't exist and will be created.");
-                    FileStream fs = File.Create(s);
-                    fs.Close();
-                }
+                int count = CurrentEntry.RecordCount;
+                int completed = CurrentEntry.CompletedRecordCount;
+                pbCurEntryStat.Value = completed;
+                pbCurEntryStat.Maximum = count;
+                lblCurEntryStat.Text = string.Format("{0}/{1} ({2:F2}%)", completed, count, (float)completed / count * 100);
             }
 
 
 
-            foreach (string key in Entry.Keys)
-            {
-                Record r = Entry[key];
-                dgvWorkspace.Rows.Add(r.Id, r.TextEng, r.TextJap, r.TextVie);
-            }
-        }
 
-        private void SaveCurrentEntry(string _path)
-        {
-            // of course what will be saved is just translated text;
-
-            string s = $"{defaultRootDir}\\{_path}\\main.cl3.txt".Replace("data", "data_vie");
-
-            string[] values = new string[Entry.Values.Count];
-
-            StringBuilder sb = new StringBuilder();
-            foreach (string key in Entry.Keys)
-            {
-                Record r = Entry[key];
-                sb.AppendLine($"{recordSeparator} {r.Id}");
-                sb.AppendLine(r.TextVie);
-            }
-            sb.Append($"{recordSeparator} EOF");
-
-            string str = sb.ToString();
-            File.WriteAllText(s, str, Encoding.UTF8);
-        }
-
-        private string GetNodePath(TreeNode _node)
-        {
-            string res = "";
-            TreeNode node = _node;
-            do
-            {
-                res = node.Text + "\\" + res;
-                node = node.Parent;
-            } while (node != null);
-
-            return res;
+            return true;
         }
 
         private void ApplyRecord()
         {
-            Entry[(string)dgvWorkspace.SelectedRows[0].Cells[0].Value].TextVie = tbTextVie.Text;
+            Record record = CurrentEntry.GetRecord((string)dgvWorkspace.SelectedRows[0].Cells[0].Value);
+            if (record == null)
+            {
+                Console.WriteLine("This record should not be null...");
+                return;
+            }
+            record.TextVie = tbTextVie.Text;
+            CurrentEntry.UpdateRecord(record);
             dgvWorkspace.SelectedRows[0].Cells[3].Value = tbTextVie.Text;
         }
 
@@ -456,20 +169,48 @@ namespace NepTrans
             dgvWorkspace.Rows[index].Selected = true;
         }
 
+        private void SaveProject()
+        {
+            Console.WriteLine("======================");
+            Console.WriteLine("    Saving data...");
+            NepError err = MainGameEntryManager.SaveData();
+            Console.WriteLine(err);
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveProject();
+        }
+
         private void treeDirStruct_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            // TODO: bug here: program crash if tree is not properly populated;
             if (e.Node.Nodes.Count <= 0)
             {
-                if (CurrentEntryPath != null && !CurrentEntryPath.Equals(""))
-                {
-                    SaveCurrentEntry(CurrentEntryPath);
-                }
                 dgvWorkspace.Rows.Clear();
-                CurrentEntryPath = e.Node.FullPath;
-                LoadEntry(CurrentEntryPath);
+                EntryType type = EntryType.None;
+
+                if (e.Node.FullPath.Contains("GAME00000"))
+                    type = EntryType.GameScript;
+                else if (e.Node.FullPath.Contains("SYSTEM00000"))
+                    type = EntryType.SystemScript;
+                else
+                    Console.WriteLine("You shouldn't be here!");
+                Entry entry = MainGameEntryManager.GetEntry(e.Node.Name, type);
+                foreach (string key in entry.Records.Keys)
+                {
+                    Record r = entry.Records[key];
+                    dgvWorkspace.Rows.Add(r.Id, r.TextEng, r.TextJap, r.TextVie);
+                }
+                CurrentEntry = entry;
                 btnSaveEntry.Enabled = true;
             }
-
+            else
+            {
+                dgvWorkspace.Rows.Clear();
+                CurrentEntry = null;
+            }
+            UpdateProgressDisplayCurrentEntry();
         }
 
         private void dgvWorkspace_SelectionChanged(object sender, EventArgs e)
@@ -483,6 +224,9 @@ namespace NepTrans
             }
             else
             {
+                tbTextEng.Text = "";
+                tbTextJap.Text = "";
+                tbTextVie.Text = "";
                 btnUpdate.Enabled = false;
             }
         }
@@ -490,15 +234,20 @@ namespace NepTrans
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             ApplyRecord();
-            NextRecord();
+            //NextRecord();
         }
 
         private void btnSaveEntry_Click(object sender, EventArgs e)
         {
-            SaveCurrentEntry(CurrentEntryPath);
+            ApplyRecord();
+            MainGameEntryManager.UpdateEntry(CurrentEntry);
         }
 
-        bool keydowncancel = false;
+        private void btSaveProj_Click(object sender, EventArgs e)
+        {
+            SaveProject();
+        }
+
         private void tbTextVie_KeyDown(object sender, KeyEventArgs e)
         {
 
@@ -509,27 +258,16 @@ namespace NepTrans
 
                     ApplyRecord();
                     NextRecord();
-                    keydowncancel = true;
-                    //e.SuppressKeyPress
+                    e.SuppressKeyPress = true;
                 }
                 else if (ModifierKeys == Keys.Shift && e.KeyCode == Keys.Enter)
                 {
 
                     ApplyRecord();
                     PreviousRecord();
-                    keydowncancel = true;
-                }
-                else
-                {
-                    keydowncancel = false;
+                    e.SuppressKeyPress = true;
                 }
             }
-        }
-
-        private void tbTextVie_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (keydowncancel)
-                e.Handled = true;
         }
     }
 }

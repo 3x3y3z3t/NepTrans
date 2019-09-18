@@ -42,7 +42,7 @@ namespace NepTrans
         public EntryType Type;
         public string Path;
         public string Name;
-        private Dictionary<string, Record> Records;
+        public Dictionary<string, Record> Records { get; private set; }
         public int RecordCount { get { return Records.Count; } }
         public int CompletedRecordCount
         {
@@ -68,7 +68,14 @@ namespace NepTrans
 
         public void AddRecord(Record _record)
         {
+            if (Records.ContainsKey(_record.Id))
+                return;
+            Records.Add(_record.Id, _record);
+        }
 
+        public void UpdateRecord(Record _record)
+        {
+            Records[_record.Id] = _record;
         }
 
         public Record GetRecord(string _id)
