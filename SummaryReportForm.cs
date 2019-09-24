@@ -15,6 +15,24 @@ namespace NepTrans
     {
         NepEntryManager EntryManager { get; set; }
 
+        // cache;
+#if false
+        static int game = 6768;
+        static int system = 13441;
+        static int overall = game + system;
+        static int cgame = 3 + 3333;
+        static int csystem = 41 + 6500;
+        static int coverall = cgame + csystem;
+        //static float gpercent = (float)game / overall;
+#else
+        int game = 0;
+        int system = 0;
+        int overall = 0;
+        int cgame = 0;
+        int csystem = 0;
+        int coverall = 0;
+#endif
+
         public SummaryReportForm(NepEntryManager _entryManager)
         {
             InitializeComponent();
@@ -27,16 +45,6 @@ namespace NepTrans
             UpdateProgressDisplay();
         }
 
-        // ===== dev =====
-        static int game = 6768;
-        static int system = 13441;
-        static int overall = game + system;
-        static int cgame = 3 + 3333;
-        static int csystem = 41 + 6500;
-        static int coverall = cgame + csystem;
-        static float gpercent = (float)game / overall;
-        // ===============
-
         public bool UpdateProgressDisplay()
         {
             if (EntryManager == null)
@@ -45,12 +53,12 @@ namespace NepTrans
                 return false;
             }
 
-            int game = EntryManager.GameScriptRecordCount;
-            int system = EntryManager.SystemScriptRecordCount;
-            int overall = game + system;
-            int cgame = EntryManager.GameScriptCompletedRecordCount;
-            int csystem = EntryManager.SystemScriptCompletedRecordCount;
-            int coverall = cgame + csystem;
+            game = EntryManager.GameScriptRecordCount;
+            system = EntryManager.SystemScriptRecordCount;
+            overall = game + system;
+            cgame = EntryManager.GameScriptCompletedRecordCount;
+            csystem = EntryManager.SystemScriptCompletedRecordCount;
+            coverall = cgame + csystem;
 
             lblOverall.Text = string.Format("{0}/{1} ({2:F2}%)", coverall, overall, (float)coverall / overall * 100);
             lblGameScript.Text = string.Format("{0}/{1} ({2:F2}%)", cgame, game, (float)cgame / game * 100);
@@ -65,17 +73,10 @@ namespace NepTrans
         {
             if (EntryManager == null)
             {
-                //Console.WriteLine("SummaryReportForm.pnlReport_Paint() -> \"You should not be here.\"");
                 Console.WriteLine("SummaryReportForm.pnlReport_Paint() -> Invalid EntryManager.");
-                return;
+                //return;
             }
-
-            int game = EntryManager.GameScriptRecordCount;
-            int system = EntryManager.SystemScriptRecordCount;
-            int overall = game + system;
-            int cgame = EntryManager.GameScriptCompletedRecordCount;
-            int csystem = EntryManager.SystemScriptCompletedRecordCount;
-            int coverall = cgame + csystem;
+            
             float gpercent = (float)game / overall;
 
             // FillPie() startAngle starts from 3h position;
@@ -87,8 +88,8 @@ namespace NepTrans
             Graphics g = e.Graphics;
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-            Brush gProgressBrush = new SolidBrush(Color.LightGreen);
-            Brush sProgressBrush = new SolidBrush(Color.LightBlue);
+            Brush gProgressBrush = new SolidBrush(Color.LightSeaGreen);
+            Brush sProgressBrush = new SolidBrush(Color.LightSkyBlue);
             Pen outlinePen = new Pen(Color.Black, 1.0f);
 
             // hack: pnlReport is always square shaped;

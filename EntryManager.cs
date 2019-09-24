@@ -1,6 +1,7 @@
 // ;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -212,6 +213,47 @@ namespace NepTrans
 
             // ===== return =====
             return new NepError(NepErrCode.NoError, "Validation successfull.");
+        }
+
+        /// <summary> Autofill any record with duplicate data. </summary>
+        /// <returns> A pair of the total number of autofilled records and total records with duplicate data. </returns>
+        public Point AutofillRecord()
+        {
+            int count = 0;
+            int total = 0;
+
+            foreach (Entry entry in GameScriptEntries.Values)
+            {
+                foreach (Record record in entry.Records.Values)
+                {
+                    if (record.TextEng.Equals(record.TextJap))
+                    {
+                        ++total;
+                        if (!record.TextVie.Equals(record.TextEng))
+                        {
+                            record.TextVie = record.TextEng;
+                            ++count;
+                        }
+                    }
+                }
+            }
+            foreach (Entry entry in SystemScriptEntries.Values)
+            {
+                foreach (Record record in entry.Records.Values)
+                {
+                    if (record.TextEng.Equals(record.TextJap))
+                    {
+                        ++total;
+                        if (!record.TextVie.Equals(record.TextEng))
+                        {
+                            record.TextVie = record.TextEng;
+                            ++count;
+                        }
+                    }
+                }
+            }
+
+            return new Point(count, total);
         }
 
         /// <summary>
@@ -679,7 +721,7 @@ namespace NepTrans
         private bool SaveSystemScriptEntry()
         {
             int count = 0;
-            foreach(string name in SystemScriptEntries.Keys)
+            foreach (string name in SystemScriptEntries.Keys)
             {
                 Entry entry = SystemScriptEntries[name];
                 string sv = $"{RootDirectory}{NepDataRootDir}{DataVieRootDir}{SystemScript}\\{name}";

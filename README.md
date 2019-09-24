@@ -6,7 +6,7 @@ so you don't have to tab between files for reference, or edit the original file.
 Changes will be kept track of and be written to output file with the same format as the original scripts.
 Saves is made automatically when program is closing, or manually using a Save button.
 
-Current version: v0.2.2
+Current version: v0.2.3
 
 Supported games:
 - Choujijigen Game Neptune Re;Birth1

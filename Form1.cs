@@ -1,9 +1,6 @@
-
+// ;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using System.Text;
 using System.Windows.Forms;
 
 namespace NepTrans
@@ -220,6 +217,31 @@ namespace NepTrans
             UpdateProgressDisplay();
         }
 
+        private void treeDirStruct_DrawNode(object sender, DrawTreeNodeEventArgs e)
+        {
+            if (e.Node == null)
+                return;
+
+            bool selected = (e.State & TreeNodeStates.Selected) == TreeNodeStates.Selected;
+            bool hot = (e.State & TreeNodeStates.Hot) == TreeNodeStates.Hot;
+            //Console.WriteLine(hot);
+
+            // we need to do owner drawing only on a selected node
+            // and when the treeview is unfocused, else let the OS do it for us
+            if (selected && !e.Node.TreeView.Focused)
+            {
+                Font font = e.Node.NodeFont ?? e.Node.TreeView.Font;
+                if (hot)
+                    font = new Font(font, FontStyle.Underline);
+                e.Graphics.FillRectangle(SystemBrushes.Highlight, e.Bounds);
+                TextRenderer.DrawText(e.Graphics, e.Node.Text, font, e.Bounds, SystemColors.HighlightText, TextFormatFlags.GlyphOverhangPadding);
+            }
+            else
+            {
+                e.DrawDefault = true;
+            }
+        }
+
         private void dgvWorkspace_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvWorkspace.SelectedRows.Count > 0)
@@ -293,15 +315,25 @@ namespace NepTrans
             }
             tbTextVie.Text = tbTextEng.Text;
             ApplyRecord();
+            NextRecord();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnSummaryReport_Click(object sender, EventArgs e)
         {
             using (Form f = new SummaryReportForm(MainGameEntryManager))
             {
                 DialogResult result = f.ShowDialog();
                 Console.WriteLine($"Summary Dialog returns '{result}'.");
             }
+        }
+
+        private void btnAutofill_Click(object sender, EventArgs e)
+        {
+            Point p = MainGameEntryManager.AutofillRecord();
+            //Point p = new Point(15, 350);
+            DialogResult result = MessageBox.Show(this, $"Autofilled {p.X} over {p.Y} records with duplicated data.", "Autofill", MessageBoxButtons.OK);
+            Console.WriteLine($"Autofill MsgBox returns '{result}'.");
+            UpdateProgressDisplay();
         }
     }
 }

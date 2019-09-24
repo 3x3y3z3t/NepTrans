@@ -62,7 +62,8 @@
             this.btnVerifyDirectory = new System.Windows.Forms.Button();
             this.btSaveProj = new System.Windows.Forms.Button();
             this.btnKeepOrg = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnSummaryReport = new System.Windows.Forms.Button();
+            this.btnAutofill = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWorkspace)).BeginInit();
             this.groupTextEng.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -229,6 +230,7 @@
             this.treeDirStruct.Name = "treeDirStruct";
             this.treeDirStruct.Size = new System.Drawing.Size(265, 641);
             this.treeDirStruct.TabIndex = 9;
+            this.treeDirStruct.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeDirStruct_DrawNode);
             this.treeDirStruct.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeDirStruct_AfterSelect);
             // 
             // btnSelectRootDir
@@ -399,24 +401,37 @@
             this.btnKeepOrg.UseVisualStyleBackColor = true;
             this.btnKeepOrg.Click += new System.EventHandler(this.btnKeepOrg_Click);
             // 
-            // button1
+            // btnSummaryReport
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.button1.Location = new System.Drawing.Point(942, 600);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 23);
-            this.button1.TabIndex = 29;
-            this.button1.Text = "Summary";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnSummaryReport.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSummaryReport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSummaryReport.Location = new System.Drawing.Point(1048, 571);
+            this.btnSummaryReport.Name = "btnSummaryReport";
+            this.btnSummaryReport.Size = new System.Drawing.Size(191, 23);
+            this.btnSummaryReport.TabIndex = 29;
+            this.btnSummaryReport.Text = "Summary";
+            this.btnSummaryReport.UseVisualStyleBackColor = true;
+            this.btnSummaryReport.Click += new System.EventHandler(this.btnSummaryReport_Click);
+            // 
+            // btnAutofill
+            // 
+            this.btnAutofill.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAutofill.ForeColor = System.Drawing.Color.Red;
+            this.btnAutofill.Location = new System.Drawing.Point(1048, 501);
+            this.btnAutofill.Name = "btnAutofill";
+            this.btnAutofill.Size = new System.Drawing.Size(191, 23);
+            this.btnAutofill.TabIndex = 30;
+            this.btnAutofill.Text = "Autofill Unchanged Records";
+            this.btnAutofill.UseVisualStyleBackColor = true;
+            this.btnAutofill.Click += new System.EventHandler(this.btnAutofill_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1280, 720);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnAutofill);
+            this.Controls.Add(this.btnSummaryReport);
             this.Controls.Add(this.btnKeepOrg);
             this.Controls.Add(this.btSaveProj);
             this.Controls.Add(this.treeDirStruct);
@@ -497,7 +512,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colTextJap;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTextVie;
         private System.Windows.Forms.Button btnKeepOrg;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnSummaryReport;
+        private System.Windows.Forms.Button btnAutofill;
     }
 }
 
