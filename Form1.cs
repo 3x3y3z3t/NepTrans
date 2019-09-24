@@ -12,17 +12,9 @@ namespace NepTrans
     {
         const string defaultRootDir = @"D:\AllNepPj";
         const string nepRb1RootDir = @"\nep_rb1";
-        const string dataEngRootDir = @"\data_eng";
-        const string dataJapRootDir = @"\data_jap";
-        const string dataVieRootDir = @"\data_vie";
-        const string game00000 = @"\GAME00000";
-        const string eventScripts = @"\event\script";
 
         NepEntryManager MainGameEntryManager;
 
-
-        //Dictionary<string, Record> Entry;
-        //string CurrentEntryPath;
 
         Entry CurrentEntry = null;
 
@@ -33,18 +25,17 @@ namespace NepTrans
             MainGameEntryManager = new NepEntryManager("nep_rb1", defaultRootDir, nepRb1RootDir);
 
             treeDirStruct.Nodes.Add(MainGameEntryManager.EntriesTree);
-            
+
 
             SetupProgressDisplay();
             UpdateProgressDisplay();
 
 
-
-
             btnUpdate.Enabled = false;
             btnSaveEntry.Enabled = false;
+            btnKeepOrg.Enabled = false;
 
-      
+
             treeDirStruct.ExpandAll();
 
         }
@@ -111,7 +102,9 @@ namespace NepTrans
             lblOverallStat.Text = string.Format("{0}/{1} ({2:F2}%)", overallCompleteCount, overallCount, (float)overallCompleteCount / overallCount * 100);
             lblGameScriptStat.Text = string.Format("{0}/{1} ({2:F2}%)", gameCompleteCount, gameCount, (float)gameCompleteCount / gameCount * 100);
             lblSystemScriptStat.Text = string.Format("{0}/{1} ({2:F2}%)", systemCompleteCount, systemCount, (float)systemCompleteCount / systemCount * 100);
-            
+
+            UpdateProgressDisplayCurrentEntry();
+
             return true;
         }
 
@@ -119,16 +112,16 @@ namespace NepTrans
         {
             if (CurrentEntry == null)
             {
-                pbCurEntryStat.Value = 0;
                 pbCurEntryStat.Maximum = 0;
+                pbCurEntryStat.Value = 0;
                 lblCurEntryStat.Text = "0/0 (0%)";
             }
             else
             {
                 int count = CurrentEntry.RecordCount;
                 int completed = CurrentEntry.CompletedRecordCount;
-                pbCurEntryStat.Value = completed;
                 pbCurEntryStat.Maximum = count;
+                pbCurEntryStat.Value = completed;
                 lblCurEntryStat.Text = string.Format("{0}/{1} ({2:F2}%)", completed, count, (float)completed / count * 100);
             }
 
@@ -140,15 +133,20 @@ namespace NepTrans
 
         private void ApplyRecord()
         {
+            if (CurrentEntry == null)
+                return;
+
             Record record = CurrentEntry.GetRecord((string)dgvWorkspace.SelectedRows[0].Cells[0].Value);
             if (record == null)
             {
-                Console.WriteLine("This record should not be null...");
+                Console.WriteLine("This record should not be null. Make sure you commit the record before switching to other entry.");
                 return;
             }
             record.TextVie = tbTextVie.Text;
             CurrentEntry.UpdateRecord(record);
             dgvWorkspace.SelectedRows[0].Cells[3].Value = tbTextVie.Text;
+            MainGameEntryManager.UpdateEntry(CurrentEntry);
+            UpdateProgressDisplay();
         }
 
         private void NextRecord()
@@ -182,7 +180,7 @@ namespace NepTrans
             SaveProject();
         }
 
-        private void treeDirStruct_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void treeDirStruct_AfterSelect(object sender, TreeViewEventArgs e)
         {
             // TODO: bug here: program crash if tree is not properly populated;
             if (e.Node.Nodes.Count <= 0)
@@ -197,20 +195,29 @@ namespace NepTrans
                 else
                     Console.WriteLine("You shouldn't be here!");
                 Entry entry = MainGameEntryManager.GetEntry(e.Node.Name, type);
-                foreach (string key in entry.Records.Keys)
+                if (entry == null)
                 {
-                    Record r = entry.Records[key];
-                    dgvWorkspace.Rows.Add(r.Id, r.TextEng, r.TextJap, r.TextVie);
+                    Console.WriteLine("Selected node is not a valid entry.");
                 }
-                CurrentEntry = entry;
-                btnSaveEntry.Enabled = true;
+                else
+                {
+                    //ApplyRecord();
+                    foreach (string key in entry.Records.Keys)
+                    {
+                        Record r = entry.Records[key];
+                        dgvWorkspace.Rows.Add(r.Id, r.TextEng, r.TextJap, r.TextVie);
+                    }
+                    CurrentEntry = entry;
+                    btnSaveEntry.Enabled = true;
+                    UpdateProgressDisplay();
+                    return;
+                }
             }
-            else
-            {
-                dgvWorkspace.Rows.Clear();
-                CurrentEntry = null;
-            }
-            UpdateProgressDisplayCurrentEntry();
+
+            dgvWorkspace.Rows.Clear();
+            CurrentEntry = null;
+            btnSaveEntry.Enabled = false;
+            UpdateProgressDisplay();
         }
 
         private void dgvWorkspace_SelectionChanged(object sender, EventArgs e)
@@ -221,6 +228,8 @@ namespace NepTrans
                 tbTextJap.Text = (string)dgvWorkspace.SelectedRows[0].Cells[2].Value;
                 tbTextVie.Text = (string)dgvWorkspace.SelectedRows[0].Cells[3].Value;
                 btnUpdate.Enabled = true;
+                btnKeepOrg.Enabled = true;
+                ApplyRecord();
             }
             else
             {
@@ -228,6 +237,7 @@ namespace NepTrans
                 tbTextJap.Text = "";
                 tbTextVie.Text = "";
                 btnUpdate.Enabled = false;
+                btnKeepOrg.Enabled = false;
             }
         }
 
@@ -240,7 +250,6 @@ namespace NepTrans
         private void btnSaveEntry_Click(object sender, EventArgs e)
         {
             ApplyRecord();
-            MainGameEntryManager.UpdateEntry(CurrentEntry);
         }
 
         private void btSaveProj_Click(object sender, EventArgs e)
@@ -267,6 +276,31 @@ namespace NepTrans
                     PreviousRecord();
                     e.SuppressKeyPress = true;
                 }
+            }
+        }
+
+        private void btnKeepOrg_Click(object sender, EventArgs e)
+        {
+            if (CurrentEntry == null)
+            {
+                Console.WriteLine("btnKeepOrg_Click() -> \"You shouldn't be here.\"");
+                return;
+            }
+
+            if (!tbTextEng.Text.Equals(tbTextJap.Text))
+            {
+                Console.WriteLine("btnKeepOrg_Click() -> Original text doesn't match, use at your own risk.");
+            }
+            tbTextVie.Text = tbTextEng.Text;
+            ApplyRecord();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (Form f = new SummaryReportForm(MainGameEntryManager))
+            {
+                DialogResult result = f.ShowDialog();
+                Console.WriteLine($"Summary Dialog returns '{result}'.");
             }
         }
     }

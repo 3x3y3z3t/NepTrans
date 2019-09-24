@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tbRootDirectory = new System.Windows.Forms.TextBox();
             this.dgvWorkspace = new System.Windows.Forms.DataGridView();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -61,6 +61,8 @@
             this.lblSystemScriptHeader = new System.Windows.Forms.Label();
             this.btnVerifyDirectory = new System.Windows.Forms.Button();
             this.btSaveProj = new System.Windows.Forms.Button();
+            this.btnKeepOrg = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWorkspace)).BeginInit();
             this.groupTextEng.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -83,21 +85,21 @@
             this.colTextEng,
             this.colTextJap,
             this.colTextVie});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvWorkspace.DefaultCellStyle = dataGridViewCellStyle4;
-            this.dgvWorkspace.Location = new System.Drawing.Point(268, 67);
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvWorkspace.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvWorkspace.Location = new System.Drawing.Point(286, 67);
             this.dgvWorkspace.MultiSelect = false;
             this.dgvWorkspace.Name = "dgvWorkspace";
             this.dgvWorkspace.ReadOnly = true;
             this.dgvWorkspace.RowHeadersWidth = 25;
             this.dgvWorkspace.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvWorkspace.Size = new System.Drawing.Size(876, 260);
+            this.dgvWorkspace.Size = new System.Drawing.Size(982, 250);
             this.dgvWorkspace.TabIndex = 1;
             this.dgvWorkspace.SelectionChanged += new System.EventHandler(this.dgvWorkspace_SelectionChanged);
             // 
@@ -108,7 +110,7 @@
             this.colId.Name = "colId";
             this.colId.ReadOnly = true;
             this.colId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colId.Width = 75;
+            this.colId.Width = 85;
             // 
             // colTextEng
             // 
@@ -117,7 +119,7 @@
             this.colTextEng.Name = "colTextEng";
             this.colTextEng.ReadOnly = true;
             this.colTextEng.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colTextEng.Width = 250;
+            this.colTextEng.Width = 280;
             // 
             // colTextJap
             // 
@@ -126,7 +128,7 @@
             this.colTextJap.Name = "colTextJap";
             this.colTextJap.ReadOnly = true;
             this.colTextJap.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colTextJap.Width = 250;
+            this.colTextJap.Width = 280;
             // 
             // colTextVie
             // 
@@ -135,7 +137,7 @@
             this.colTextVie.Name = "colTextVie";
             this.colTextVie.ReadOnly = true;
             this.colTextVie.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colTextVie.Width = 250;
+            this.colTextVie.Width = 280;
             // 
             // checkUseCurrentDir
             // 
@@ -160,9 +162,9 @@
             // groupTextEng
             // 
             this.groupTextEng.Controls.Add(this.tbTextEng);
-            this.groupTextEng.Location = new System.Drawing.Point(268, 333);
+            this.groupTextEng.Location = new System.Drawing.Point(286, 323);
             this.groupTextEng.Name = "groupTextEng";
-            this.groupTextEng.Size = new System.Drawing.Size(325, 100);
+            this.groupTextEng.Size = new System.Drawing.Size(375, 150);
             this.groupTextEng.TabIndex = 6;
             this.groupTextEng.TabStop = false;
             this.groupTextEng.Text = "English Text";
@@ -174,15 +176,15 @@
             this.tbTextEng.Multiline = true;
             this.tbTextEng.Name = "tbTextEng";
             this.tbTextEng.ReadOnly = true;
-            this.tbTextEng.Size = new System.Drawing.Size(313, 75);
+            this.tbTextEng.Size = new System.Drawing.Size(363, 125);
             this.tbTextEng.TabIndex = 1;
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.tbTextJap);
-            this.groupBox1.Location = new System.Drawing.Point(599, 333);
+            this.groupBox1.Location = new System.Drawing.Point(667, 323);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(325, 100);
+            this.groupBox1.Size = new System.Drawing.Size(375, 150);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Japanese Text";
@@ -194,16 +196,17 @@
             this.tbTextJap.Multiline = true;
             this.tbTextJap.Name = "tbTextJap";
             this.tbTextJap.ReadOnly = true;
-            this.tbTextJap.Size = new System.Drawing.Size(313, 75);
+            this.tbTextJap.Size = new System.Drawing.Size(363, 125);
             this.tbTextJap.TabIndex = 2;
-            this.tbTextJap.Text = "冗談はその下品な言葉使いだけにしてくださる？\r\nわたくしは成し遂げなければならない崇高なる\r\n目的の為…ここで敗れるわけにはいきませんの";
+            this.tbTextJap.Text = "本作の主人公で、プラネテューヌの女神、パープルハー\r\nトの中（？）の人。天界での守護女神戦争で敗北したこ\r\nとにより、名前以外の一切の記憶がないが、それを疑い\r\n" +
+    "たくなる程の明るく前向きな性格をしている。";
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.tbTextVie);
-            this.groupBox2.Location = new System.Drawing.Point(268, 439);
+            this.groupBox2.Location = new System.Drawing.Point(286, 479);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(325, 100);
+            this.groupBox2.Size = new System.Drawing.Size(375, 150);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Translated Text";
@@ -214,7 +217,7 @@
             this.tbTextVie.Location = new System.Drawing.Point(6, 19);
             this.tbTextVie.Multiline = true;
             this.tbTextVie.Name = "tbTextVie";
-            this.tbTextVie.Size = new System.Drawing.Size(313, 75);
+            this.tbTextVie.Size = new System.Drawing.Size(363, 125);
             this.tbTextVie.TabIndex = 0;
             this.tbTextVie.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbTextVie_KeyDown);
             // 
@@ -222,11 +225,11 @@
             // 
             this.treeDirStruct.HideSelection = false;
             this.treeDirStruct.HotTracking = true;
-            this.treeDirStruct.Location = new System.Drawing.Point(12, 67);
+            this.treeDirStruct.Location = new System.Drawing.Point(15, 67);
             this.treeDirStruct.Name = "treeDirStruct";
-            this.treeDirStruct.Size = new System.Drawing.Size(250, 602);
+            this.treeDirStruct.Size = new System.Drawing.Size(265, 641);
             this.treeDirStruct.TabIndex = 9;
-            this.treeDirStruct.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeDirStruct_NodeMouseClick);
+            this.treeDirStruct.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeDirStruct_AfterSelect);
             // 
             // btnSelectRootDir
             // 
@@ -239,7 +242,7 @@
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(599, 510);
+            this.btnUpdate.Location = new System.Drawing.Point(673, 600);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(144, 23);
             this.btnUpdate.TabIndex = 11;
@@ -249,9 +252,9 @@
             // 
             // btnSaveEntry
             // 
-            this.btnSaveEntry.Location = new System.Drawing.Point(930, 404);
+            this.btnSaveEntry.Location = new System.Drawing.Point(1048, 394);
             this.btnSaveEntry.Name = "btnSaveEntry";
-            this.btnSaveEntry.Size = new System.Drawing.Size(214, 23);
+            this.btnSaveEntry.Size = new System.Drawing.Size(191, 23);
             this.btnSaveEntry.TabIndex = 12;
             this.btnSaveEntry.Text = "Save Current Entry";
             this.btnSaveEntry.UseVisualStyleBackColor = true;
@@ -259,14 +262,14 @@
             // 
             // pbOverall
             // 
-            this.pbOverall.Location = new System.Drawing.Point(268, 545);
+            this.pbOverall.Location = new System.Drawing.Point(286, 635);
             this.pbOverall.Name = "pbOverall";
             this.pbOverall.Size = new System.Drawing.Size(876, 15);
             this.pbOverall.TabIndex = 13;
             // 
             // pbGameScript
             // 
-            this.pbGameScript.Location = new System.Drawing.Point(268, 579);
+            this.pbGameScript.Location = new System.Drawing.Point(286, 669);
             this.pbGameScript.MinimumSize = new System.Drawing.Size(131, 15);
             this.pbGameScript.Name = "pbGameScript";
             this.pbGameScript.Size = new System.Drawing.Size(435, 15);
@@ -274,7 +277,7 @@
             // 
             // pbSystemScript
             // 
-            this.pbSystemScript.Location = new System.Drawing.Point(709, 579);
+            this.pbSystemScript.Location = new System.Drawing.Point(727, 669);
             this.pbSystemScript.MinimumSize = new System.Drawing.Size(132, 15);
             this.pbSystemScript.Name = "pbSystemScript";
             this.pbSystemScript.Size = new System.Drawing.Size(435, 15);
@@ -282,15 +285,15 @@
             // 
             // pbCurEntryStat
             // 
-            this.pbCurEntryStat.Location = new System.Drawing.Point(930, 352);
+            this.pbCurEntryStat.Location = new System.Drawing.Point(1048, 342);
             this.pbCurEntryStat.Name = "pbCurEntryStat";
-            this.pbCurEntryStat.Size = new System.Drawing.Size(214, 15);
+            this.pbCurEntryStat.Size = new System.Drawing.Size(191, 15);
             this.pbCurEntryStat.TabIndex = 17;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(930, 370);
+            this.label3.Location = new System.Drawing.Point(1045, 360);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(71, 13);
             this.label3.TabIndex = 18;
@@ -300,7 +303,7 @@
             // 
             this.lblCurEntryStat.AutoSize = true;
             this.lblCurEntryStat.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurEntryStat.Location = new System.Drawing.Point(1007, 370);
+            this.lblCurEntryStat.Location = new System.Drawing.Point(1122, 360);
             this.lblCurEntryStat.Name = "lblCurEntryStat";
             this.lblCurEntryStat.Size = new System.Drawing.Size(55, 13);
             this.lblCurEntryStat.TabIndex = 19;
@@ -310,7 +313,7 @@
             // 
             this.lblOverallStat.AutoSize = true;
             this.lblOverallStat.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOverallStat.Location = new System.Drawing.Point(361, 563);
+            this.lblOverallStat.Location = new System.Drawing.Point(379, 653);
             this.lblOverallStat.Name = "lblOverallStat";
             this.lblOverallStat.Size = new System.Drawing.Size(55, 13);
             this.lblOverallStat.TabIndex = 21;
@@ -319,7 +322,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(268, 563);
+            this.label5.Location = new System.Drawing.Point(286, 653);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(87, 13);
             this.label5.TabIndex = 20;
@@ -329,7 +332,7 @@
             // 
             this.lblGameScriptStat.AutoSize = true;
             this.lblGameScriptStat.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGameScriptStat.Location = new System.Drawing.Point(344, 597);
+            this.lblGameScriptStat.Location = new System.Drawing.Point(362, 687);
             this.lblGameScriptStat.Name = "lblGameScriptStat";
             this.lblGameScriptStat.Size = new System.Drawing.Size(55, 13);
             this.lblGameScriptStat.TabIndex = 23;
@@ -338,7 +341,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(268, 597);
+            this.label7.Location = new System.Drawing.Point(286, 687);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(70, 13);
             this.label7.TabIndex = 22;
@@ -348,7 +351,7 @@
             // 
             this.lblSystemScriptStat.AutoSize = true;
             this.lblSystemScriptStat.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSystemScriptStat.Location = new System.Drawing.Point(789, 597);
+            this.lblSystemScriptStat.Location = new System.Drawing.Point(807, 687);
             this.lblSystemScriptStat.Name = "lblSystemScriptStat";
             this.lblSystemScriptStat.Size = new System.Drawing.Size(55, 13);
             this.lblSystemScriptStat.TabIndex = 25;
@@ -357,7 +360,7 @@
             // lblSystemScriptHeader
             // 
             this.lblSystemScriptHeader.AutoSize = true;
-            this.lblSystemScriptHeader.Location = new System.Drawing.Point(709, 597);
+            this.lblSystemScriptHeader.Location = new System.Drawing.Point(727, 687);
             this.lblSystemScriptHeader.Name = "lblSystemScriptHeader";
             this.lblSystemScriptHeader.Size = new System.Drawing.Size(74, 13);
             this.lblSystemScriptHeader.TabIndex = 24;
@@ -377,20 +380,46 @@
             // 
             this.btSaveProj.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btSaveProj.ForeColor = System.Drawing.Color.Red;
-            this.btSaveProj.Location = new System.Drawing.Point(930, 510);
+            this.btSaveProj.Location = new System.Drawing.Point(1048, 600);
             this.btSaveProj.Name = "btSaveProj";
-            this.btSaveProj.Size = new System.Drawing.Size(214, 23);
+            this.btSaveProj.Size = new System.Drawing.Size(191, 23);
             this.btSaveProj.TabIndex = 27;
             this.btSaveProj.Text = "Save Project";
             this.btSaveProj.UseVisualStyleBackColor = true;
             this.btSaveProj.Click += new System.EventHandler(this.btSaveProj_Click);
             // 
+            // btnKeepOrg
+            // 
+            this.btnKeepOrg.ForeColor = System.Drawing.Color.Red;
+            this.btnKeepOrg.Location = new System.Drawing.Point(673, 498);
+            this.btnKeepOrg.Name = "btnKeepOrg";
+            this.btnKeepOrg.Size = new System.Drawing.Size(144, 23);
+            this.btnKeepOrg.TabIndex = 28;
+            this.btnKeepOrg.Text = "Keep Original";
+            this.btnKeepOrg.UseVisualStyleBackColor = true;
+            this.btnKeepOrg.Click += new System.EventHandler(this.btnKeepOrg_Click);
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.button1.Location = new System.Drawing.Point(942, 600);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 23);
+            this.button1.TabIndex = 29;
+            this.button1.Text = "Summary";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.ClientSize = new System.Drawing.Size(1280, 720);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnKeepOrg);
             this.Controls.Add(this.btSaveProj);
+            this.Controls.Add(this.treeDirStruct);
             this.Controls.Add(this.btnVerifyDirectory);
             this.Controls.Add(this.lblSystemScriptStat);
             this.Controls.Add(this.lblSystemScriptHeader);
@@ -407,7 +436,6 @@
             this.Controls.Add(this.btnSaveEntry);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnSelectRootDir);
-            this.Controls.Add(this.treeDirStruct);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupTextEng);
@@ -415,6 +443,7 @@
             this.Controls.Add(this.checkUseCurrentDir);
             this.Controls.Add(this.dgvWorkspace);
             this.Controls.Add(this.tbRootDirectory);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
             this.MaximizeBox = false;
@@ -461,12 +490,14 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lblSystemScriptStat;
         private System.Windows.Forms.Label lblSystemScriptHeader;
+        private System.Windows.Forms.Button btnVerifyDirectory;
+        private System.Windows.Forms.Button btSaveProj;
         private System.Windows.Forms.DataGridViewTextBoxColumn colId;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTextEng;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTextJap;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTextVie;
-        private System.Windows.Forms.Button btnVerifyDirectory;
-        private System.Windows.Forms.Button btSaveProj;
+        private System.Windows.Forms.Button btnKeepOrg;
+        private System.Windows.Forms.Button button1;
     }
 }
 

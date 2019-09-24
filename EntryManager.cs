@@ -421,6 +421,7 @@ namespace NepTrans
                         {
                             if (record != null)
                             {
+                                record.TextEng = record.TextEng.TrimEnd(new char[] { '\r', '\n' });
                                 entry.AddRecord(record);
                             }
                             record = new Record();
@@ -458,7 +459,7 @@ namespace NepTrans
                                 }
                                 else
                                 {
-                                    r.TextJap = record.TextJap;
+                                    r.TextJap = record.TextJap.TrimEnd(new char[] { '\r', '\n' });
                                     entry.UpdateRecord(r);
                                 }
                             }
@@ -547,6 +548,7 @@ namespace NepTrans
                         {
                             if (record != null)
                             {
+                                record.TextEng = record.TextEng.TrimEnd(new char[] { '\r', '\n' });
                                 entry.AddRecord(record);
                             }
                             record = new Record();
@@ -583,7 +585,7 @@ namespace NepTrans
                                 }
                                 else
                                 {
-                                    r.TextJap = record.TextJap;
+                                    r.TextJap = record.TextJap.TrimEnd(new char[] { '\r', '\n' });
                                     entry.UpdateRecord(r);
                                 }
                             }

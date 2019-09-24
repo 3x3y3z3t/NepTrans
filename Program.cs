@@ -18,6 +18,10 @@ namespace NepTrans
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
 
+            //Application.Run(new SummaryReportForm(null));
+
+
+
             Console.Write("\r\nPress Enter key to exit...");
             Console.Read();
         }

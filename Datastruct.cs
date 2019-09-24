@@ -43,7 +43,19 @@ namespace NepTrans
         public string Path;
         public string Name;
         public Dictionary<string, Record> Records { get; private set; }
-        public int RecordCount { get { return Records.Count; } }
+        public int RecordCount
+        {
+            get
+            {
+                int count = 0;
+                foreach (string key in Records.Keys)
+                {
+                    if (!Records[key].TextEng.Equals("") && !Records[key].TextJap.Equals(""))
+                        ++count;
+                }
+                return count;
+            }
+        }
         public int CompletedRecordCount
         {
             get
