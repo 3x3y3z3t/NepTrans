@@ -42,6 +42,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tbTextJap = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnCoopyToClipboard = new System.Windows.Forms.Button();
             this.tbTextVie = new System.Windows.Forms.TextBox();
             this.treeDirStruct = new System.Windows.Forms.TreeView();
             this.btnSelectRootDir = new System.Windows.Forms.Button();
@@ -204,6 +205,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnCoopyToClipboard);
             this.groupBox2.Controls.Add(this.tbTextVie);
             this.groupBox2.Location = new System.Drawing.Point(286, 479);
             this.groupBox2.Name = "groupBox2";
@@ -211,6 +213,18 @@
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Translated Text";
+            // 
+            // btnCoopyToClipboard
+            // 
+            this.btnCoopyToClipboard.BackgroundImage = global::NepTrans.Properties.Resources.CopyLongTextToClipboard_16x;
+            this.btnCoopyToClipboard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnCoopyToClipboard.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnCoopyToClipboard.Location = new System.Drawing.Point(344, 119);
+            this.btnCoopyToClipboard.Name = "btnCoopyToClipboard";
+            this.btnCoopyToClipboard.Size = new System.Drawing.Size(25, 25);
+            this.btnCoopyToClipboard.TabIndex = 31;
+            this.btnCoopyToClipboard.UseVisualStyleBackColor = true;
+            this.btnCoopyToClipboard.Click += new System.EventHandler(this.btnCoopyToClipboard_Click);
             // 
             // tbTextVie
             // 
@@ -514,6 +528,7 @@
         private System.Windows.Forms.Button btnKeepOrg;
         private System.Windows.Forms.Button btnSummaryReport;
         private System.Windows.Forms.Button btnAutofill;
+        private System.Windows.Forms.Button btnCoopyToClipboard;
     }
 }
 

@@ -281,7 +281,12 @@ namespace NepTrans
 
         private void tbTextVie_KeyDown(object sender, KeyEventArgs e)
         {
-
+            if (ModifierKeys == Keys.Control && e.KeyCode == Keys.A)
+            {
+                tbTextVie.SelectAll();
+                e.SuppressKeyPress = true;
+                return;
+            }
             if (dgvWorkspace.SelectedRows.Count > 0)
             {
                 if (ModifierKeys == Keys.Control && e.KeyCode == Keys.Enter)
@@ -334,6 +339,15 @@ namespace NepTrans
             DialogResult result = MessageBox.Show(this, $"Autofilled {p.X} over {p.Y} records with duplicated data.", "Autofill", MessageBoxButtons.OK);
             Console.WriteLine($"Autofill MsgBox returns '{result}'.");
             UpdateProgressDisplay();
+        }
+
+        private void btnCoopyToClipboard_Click(object sender, EventArgs e)
+        {
+            if (!tbTextVie.Text.Equals(string.Empty))
+            {
+                string text = tbTextVie.Text.Replace("\r\n", "\\n\r\n");
+                Clipboard.SetText(text);
+            }
         }
     }
 }

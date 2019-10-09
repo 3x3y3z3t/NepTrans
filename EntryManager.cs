@@ -226,6 +226,8 @@ namespace NepTrans
             {
                 foreach (Record record in entry.Records.Values)
                 {
+                    if (record.TextEng.Equals(""))
+                        continue;
                     if (record.TextEng.Equals(record.TextJap))
                     {
                         ++total;
@@ -241,6 +243,8 @@ namespace NepTrans
             {
                 foreach (Record record in entry.Records.Values)
                 {
+                    if (record.TextEng.Equals(""))
+                        continue;
                     if (record.TextEng.Equals(record.TextJap))
                     {
                         ++total;
