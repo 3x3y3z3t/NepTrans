@@ -256,6 +256,7 @@ namespace NepTrans
                     }
                 }
             }
+            SaveData();
 
             return new Point(count, total);
         }

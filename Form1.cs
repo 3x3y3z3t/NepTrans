@@ -1,6 +1,7 @@
 // ;
 using System;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace NepTrans
@@ -92,15 +93,24 @@ namespace NepTrans
             int systemCompleteCount = MainGameEntryManager.SystemScriptCompletedRecordCount;
             int overallCompleteCount = gameCompleteCount + systemCompleteCount;
 
-            pbOverall.Value = overallCompleteCount;
-            pbGameScript.Value = gameCompleteCount;
-            pbSystemScript.Value = systemCompleteCount;
+            try
+            {
+                pbOverall.Value = overallCompleteCount;
+                pbGameScript.Value = gameCompleteCount;
+                pbSystemScript.Value = systemCompleteCount;
 
-            lblOverallStat.Text = string.Format("{0}/{1} ({2:F2}%)", overallCompleteCount, overallCount, (float)overallCompleteCount / overallCount * 100);
-            lblGameScriptStat.Text = string.Format("{0}/{1} ({2:F2}%)", gameCompleteCount, gameCount, (float)gameCompleteCount / gameCount * 100);
-            lblSystemScriptStat.Text = string.Format("{0}/{1} ({2:F2}%)", systemCompleteCount, systemCount, (float)systemCompleteCount / systemCount * 100);
+                lblOverallStat.Text = string.Format("{0}/{1} ({2:F2}%)", overallCompleteCount, overallCount, (float)overallCompleteCount / overallCount * 100);
+                lblGameScriptStat.Text = string.Format("{0}/{1} ({2:F2}%)", gameCompleteCount, gameCount, (float)gameCompleteCount / gameCount * 100);
+                lblSystemScriptStat.Text = string.Format("{0}/{1} ({2:F2}%)", systemCompleteCount, systemCount, (float)systemCompleteCount / systemCount * 100);
 
-            UpdateProgressDisplayCurrentEntry();
+                UpdateProgressDisplayCurrentEntry();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                Console.WriteLine($"Additional Data: \r\n{ex.Data}");
+                Console.WriteLine($"Stacktrace: \r\n{ex.StackTrace}");
+            }
 
             return true;
         }
@@ -122,9 +132,18 @@ namespace NepTrans
                 lblCurEntryStat.Text = string.Format("{0}/{1} ({2:F2}%)", completed, count, (float)completed / count * 100);
             }
 
+            return true;
+        }
 
-
-
+        private bool IsAllCapsOrEmpty(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+                return true;
+            foreach (char c in str)
+            {
+                if (char.IsLower(c))
+                    return false;
+            }
             return true;
         }
 
@@ -138,6 +157,12 @@ namespace NepTrans
             {
                 Console.WriteLine("This record should not be null. Make sure you commit the record before switching to other entry.");
                 return;
+            }
+            if (cbAppendRecordInfo.Checked)
+            {
+                if (!IsAllCapsOrEmpty(tbTextVie.Text))
+                    if (!Regex.IsMatch(tbTextVie.Text, @" \[.+\-\>\d+\]"))
+                        tbTextVie.Text += $" [{CurrentEntry.Name}->{record.Id}]";
             }
             record.TextVie = tbTextVie.Text;
             CurrentEntry.UpdateRecord(record);
@@ -252,6 +277,10 @@ namespace NepTrans
                 btnUpdate.Enabled = true;
                 btnKeepOrg.Enabled = true;
                 ApplyRecord();
+                if (cbAppendRecordInfo.Checked)
+                {
+
+                }
             }
             else
             {
@@ -336,9 +365,12 @@ namespace NepTrans
         {
             Point p = MainGameEntryManager.AutofillRecord();
             //Point p = new Point(15, 350);
-            DialogResult result = MessageBox.Show(this, $"Autofilled {p.X} over {p.Y} records with duplicated data.", "Autofill", MessageBoxButtons.OK);
+            DialogResult result = MessageBox.Show(this,
+                $"Autofilled {p.X} over {p.Y} records with duplicated data.\r\nPlease reload Entry for changes to take efect.",
+                "Autofill", MessageBoxButtons.OK);
             Console.WriteLine($"Autofill MsgBox returns '{result}'.");
             UpdateProgressDisplay();
+            //MainGameEntryManager.SaveData();
         }
 
         private void btnCoopyToClipboard_Click(object sender, EventArgs e)

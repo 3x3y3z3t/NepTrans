@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tbRootDirectory = new System.Windows.Forms.TextBox();
             this.dgvWorkspace = new System.Windows.Forms.DataGridView();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -65,6 +65,7 @@
             this.btnKeepOrg = new System.Windows.Forms.Button();
             this.btnSummaryReport = new System.Windows.Forms.Button();
             this.btnAutofill = new System.Windows.Forms.Button();
+            this.cbAppendRecordInfo = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWorkspace)).BeginInit();
             this.groupTextEng.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -87,14 +88,14 @@
             this.colTextEng,
             this.colTextJap,
             this.colTextVie});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvWorkspace.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvWorkspace.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvWorkspace.Location = new System.Drawing.Point(286, 67);
             this.dgvWorkspace.MultiSelect = false;
             this.dgvWorkspace.Name = "dgvWorkspace";
@@ -439,11 +440,22 @@
             this.btnAutofill.UseVisualStyleBackColor = true;
             this.btnAutofill.Click += new System.EventHandler(this.btnAutofill_Click);
             // 
+            // cbAppendRecordInfo
+            // 
+            this.cbAppendRecordInfo.AutoSize = true;
+            this.cbAppendRecordInfo.Location = new System.Drawing.Point(673, 527);
+            this.cbAppendRecordInfo.Name = "cbAppendRecordInfo";
+            this.cbAppendRecordInfo.Size = new System.Drawing.Size(122, 17);
+            this.cbAppendRecordInfo.TabIndex = 31;
+            this.cbAppendRecordInfo.Text = "Append Record Info";
+            this.cbAppendRecordInfo.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1280, 720);
+            this.Controls.Add(this.cbAppendRecordInfo);
             this.Controls.Add(this.btnAutofill);
             this.Controls.Add(this.btnSummaryReport);
             this.Controls.Add(this.btnKeepOrg);
@@ -529,6 +541,7 @@
         private System.Windows.Forms.Button btnSummaryReport;
         private System.Windows.Forms.Button btnAutofill;
         private System.Windows.Forms.Button btnCoopyToClipboard;
+        private System.Windows.Forms.CheckBox cbAppendRecordInfo;
     }
 }
 

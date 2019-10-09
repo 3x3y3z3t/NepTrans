@@ -63,7 +63,7 @@ namespace NepTrans
                 int count = 0;
                 foreach (Record r in Records.Values)
                 {
-                    if (r.TextVie != null && !r.TextVie.Equals(""))
+                    if (!string.IsNullOrEmpty(r.TextVie))
                         ++count;
                 }
                 return count;
