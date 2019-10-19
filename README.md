@@ -6,22 +6,27 @@ so you don't have to tab between files for reference, or edit the original file.
 Changes will be kept track of and be written to output file with the same format as the original scripts.
 Saves is made automatically when program is closing, or manually using a Save button.
 
-Current version: v0.3.1
+## Current version:
+v1.0.1
 
-Supported games:
+## Supported games:
 - Choujijigen Game Neptune Re;Birth1
 
-Features:
+## Features:
 - Present all reference text for one line so no need to tab between files.
 - Visualize project structure with directory tree.
 - Progress tracker that shows translation progress.
 - A summary report dialog that shows progress as Pie Chart.
 
-Requirement:
+## Requirement:
 - The tool require you to have both the Japanese script and English script of the game. Otherwise it will throw a bunch of No Data error at you.
 - Directory structure is enforced.
 
-To-do list/Future features:
+## To-do list/Future features:
 - Supports for the other games in the series.
 - Allow loading data from one script only (Japanese or English).
 - (Future) Refactor and make this an universal tool for other game's translating as well.
+
+## Bugs/Issues
+If you found any bug or issue, please open a new Issue and don't forget to attach the log (which should be in the same folder as the executable).
+That should help me improve the program and make it more reliable as a translation support tool.

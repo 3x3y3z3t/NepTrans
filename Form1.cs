@@ -1,4 +1,5 @@
 // ;
+using ExwSharp;
 using System;
 using System.Data;
 using System.Data.Common;
@@ -54,7 +55,7 @@ namespace NepTrans
             }
             catch (Exception _e)
             {
-                Console.WriteLine(_e.Message);
+                Logger.Log(_e.Message);
                 return false;
             }
         }
@@ -128,9 +129,9 @@ namespace NepTrans
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
-                Console.WriteLine($"Additional Data: \r\n{ex.Data}");
-                Console.WriteLine($"Stacktrace: \r\n{ex.StackTrace}");
+                Logger.BatchLog($"Exception: {ex.Message}");
+                Logger.BatchLog($"Additional Data: \r\n{ex.Data}");
+                Logger.BatchLog($"Stacktrace: \r\n{ex.StackTrace}");
             }
 
             return true;
@@ -176,7 +177,7 @@ namespace NepTrans
             Record record = CurrentEntry.GetRecord((string)dgvWorkspace.SelectedRows[0].Cells[0].Value);
             if (record == null)
             {
-                Console.WriteLine("This record should not be null. Make sure you commit the record before switching to other entry.");
+                Logger.Log("This record should not be null. Make sure you commit the record before switching to other entry.");
                 return;
             }
             if (cbAppendRecordInfo.Checked)
@@ -217,20 +218,20 @@ namespace NepTrans
 
                 return;
             }
-            Console.WriteLine("======================\r\n    Saving data...");
+            Logger.Log("======================\r\n    Saving data...");
             NepError err = MainGameEntryManager.SaveData();
-            Console.WriteLine(err);
+            Logger.Log(err.ToString());
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             //SaveProject();
-            Console.WriteLine("======================\r\n    Closing form...");
+            Logger.Log("======================\r\n    Closing form...");
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Console.WriteLine("===== Form Closed =====");
+            Logger.Log("===== Form Closed =====");
         }
 
         private void treeDirStruct_AfterSelect(object sender, TreeViewEventArgs e)
@@ -246,11 +247,11 @@ namespace NepTrans
                 else if (e.Node.FullPath.Contains("SYSTEM00000"))
                     type = EntryType.SystemScript;
                 else
-                    Console.WriteLine("You shouldn't be here!");
+                    Logger.Log("You shouldn't be here!");
                 Entry entry = MainGameEntryManager.GetEntry(e.Node.Name, type);
                 if (entry == null)
                 {
-                    Console.WriteLine("Selected node is not a valid entry.");
+                    Logger.Log("Selected node is not a valid entry.");
                 }
                 else
                 {
@@ -374,13 +375,13 @@ namespace NepTrans
         {
             if (CurrentEntry == null)
             {
-                Console.WriteLine("btnKeepOrg_Click() -> \"You shouldn't be here.\"");
+                Logger.Log("btnKeepOrg_Click() -> \"You shouldn't be here.\"");
                 return;
             }
 
             if (!tbTextEng.Text.Equals(tbTextJap.Text))
             {
-                Console.WriteLine("btnKeepOrg_Click() -> Original text doesn't match, use at your own risk.");
+                Logger.Log("btnKeepOrg_Click() -> Original text doesn't match, use at your own risk.");
             }
             tbTextVie.Text = tbTextEng.Text;
             ApplyRecord();
@@ -392,7 +393,7 @@ namespace NepTrans
             using (Form f = new SummaryReportForm(MainGameEntryManager))
             {
                 DialogResult result = f.ShowDialog();
-                Console.WriteLine($"Summary Dialog returns '{result}'.");
+                Logger.Log($"Summary Dialog returns '{result}'.");
             }
         }
 
@@ -403,7 +404,7 @@ namespace NepTrans
             DialogResult result = MessageBox.Show(this,
                 $"Autofilled {p.X} over {p.Y} records with duplicated data.\r\nPlease reload Entry for changes to take efect.",
                 "Autofill", MessageBoxButtons.OK);
-            Console.WriteLine($"Autofill MsgBox returns '{result}'.");
+            Logger.Log($"Autofill MsgBox returns '{result}'.");
             UpdateProgressDisplay();
             //MainGameEntryManager.SaveData();
         }

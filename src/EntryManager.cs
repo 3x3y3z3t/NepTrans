@@ -1,4 +1,5 @@
 // ;
+using ExwSharp;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -146,7 +147,7 @@ namespace NepTrans
                 NepError error = ValidateDirectoryStructure();
                 if (error.ErrorCode != NepErrCode.NoError)
                 {
-                    Console.WriteLine(error);
+                    Logger.Log(error.ToString());
                     throw new Exception($"Entry Manager '{Name}' instantiation failure.");
                 }
             }
@@ -155,7 +156,7 @@ namespace NepTrans
                 NepError error = PopulateData();
                 if (error.ErrorCode != NepErrCode.NoError)
                 {
-                    Console.WriteLine(error);
+                    Logger.Log(error.ToString());
                     throw new Exception($"Entry Manager '{Name}' data population failure. Please reopen the program.");
                 }
             }
@@ -204,12 +205,12 @@ namespace NepTrans
             // ===== data_vie =====
             if (!Directory.Exists($"{RootDirectory}{NepDataRootDir}{DataVieRootDir}{GameEventScript}"))
             {
-                Console.WriteLine(@"Main Game script Translation directory not found and will be created.");
+                Logger.Log(@"Main Game script Translation directory not found and will be created.");
                 Directory.CreateDirectory($"{RootDirectory}{NepDataRootDir}{DataVieRootDir}{GameEventScript}");
             }
             if (!Directory.Exists($"{RootDirectory}{NepDataRootDir}{DataVieRootDir}{SystemScript}"))
             {
-                Console.WriteLine(@"System script Translation directory not found and will be created.");
+                Logger.Log(@"System script Translation directory not found and will be created.");
                 Directory.CreateDirectory($"{RootDirectory}{NepDataRootDir}{DataVieRootDir}{SystemScript}");
             }
 
@@ -273,21 +274,22 @@ namespace NepTrans
             NepError error = ValidateDirectoryStructure();
             if (error.ErrorCode != NepErrCode.NoError)
             {
-                Console.WriteLine("Error occurred when validate directory structure before populate data.");
+                Logger.Log("Error occurred when validate directory structure before populate data.");
                 return error;
             }
 
             // ===== GAME00000 =====
-            Console.WriteLine();
+            Logger.Log("\r\n");
             if (!ParseGameScriptEntries())
-                Console.WriteLine("No script found in Game Script directory. Please verify and try again.");
+                Logger.Log("No script found in Game Script directory. Please verify and try again.");
 
             // ===== SYSTEM00000 =====
-            Console.WriteLine();
+            Logger.Log("\r\n");
             if (!ParseSystemScriptEntries())
-                Console.WriteLine("No script found in System Script directory. Please verify and try again.");
+                Logger.Log("No script found in System Script directory. Please verify and try again.");
 
-            Console.WriteLine("===== Data Populating Successfully =====\r\n========================================\r\n");
+            Logger.BatchLog("===== Data Populating Successfully =====");
+            Logger.BatchLog("========================================");
 
             return NepError.NoError; // TODO: remove this;
         }
@@ -298,11 +300,11 @@ namespace NepTrans
             // files is already created so there is no need to check file here;
             if (!SaveGameScriptEntry())
             {
-                Console.WriteLine("Something goes wrong when saving Game Script entries.");
+                Logger.Log("Something goes wrong when saving Game Script entries.");
             }
             if (!SaveSystemScriptEntry())
             {
-                Console.WriteLine("Something goes wrong when saving System Script entries.");
+                Logger.Log("Something goes wrong when saving System Script entries.");
             }
             return NepError.NoError;
         }
@@ -372,11 +374,11 @@ namespace NepTrans
             }
 
             // TODO: populate mismatch entries as well...
-            Console.WriteLine($"Parsed {scripts.Count + empties.Count + misEng.Count + misJap.Count} Game Script entries:");
-            Console.WriteLine($"  {scripts.Count} valid entries - ");
-            Console.WriteLine($"  {empties.Count} empty entries - {dbgEmpties.ToString()}");
-            Console.WriteLine($"  {misEng.Count} mismatch \"no Jap\" entries - {dbgMisEng.ToString()}");
-            Console.WriteLine($"  {misJap.Count} mismatch \"no Eng\" entries - {dbgMisJap.ToString()}");
+            Logger.BatchLog($"Parsed {scripts.Count + empties.Count + misEng.Count + misJap.Count} Game Script entries:");
+            Logger.BatchLog($"  {scripts.Count} valid entries - ");
+            Logger.BatchLog($"  {empties.Count} empty entries - {dbgEmpties.ToString()}");
+            Logger.BatchLog($"  {misEng.Count} mismatch \"no Jap\" entries - {dbgMisEng.ToString()}");
+            Logger.BatchLog($"  {misJap.Count} mismatch \"no Eng\" entries - {dbgMisJap.ToString()}");
 
             return true;
         }
@@ -390,6 +392,7 @@ namespace NepTrans
             // TODO: LoadSystemScriptEntry();
         }
 
+        // common code break;
         private bool ParseGEntries(string _extension)
         {
             FileInfo[] fE = new DirectoryInfo($"{RootDirectory}{NepDataRootDir}{DataEngRootDir}{SystemScript}").GetFiles($"*.{_extension}.txt");
@@ -397,7 +400,7 @@ namespace NepTrans
 
             if (fE.Length != fJ.Length)
             {
-                Console.WriteLine($"{_extension} entries number mismatch: {fE.Length} eng : {fJ.Length} jap.");
+                Logger.Log($"{_extension} entries number mismatch: {fE.Length} eng : {fJ.Length} jap.");
                 // TODO: handle mismatch;
             }
 
@@ -446,10 +449,10 @@ namespace NepTrans
             }
 
             // TODO: populate mismatch entries as well...
-            Console.WriteLine($"Parsed {scripts.Count + misEng.Count + misJap.Count} System Script ({_extension}) entries:");
-            Console.WriteLine($"  {scripts.Count} valid entries - ");
-            Console.WriteLine($"  {misEng.Count} mismatch \"no Jap\" entries - {dbgMisEng.ToString()}");
-            Console.WriteLine($"  {misJap.Count} mismatch \"no Eng\" entries - {dbgMisJap.ToString()}");
+            Logger.BatchLog($"Parsed {scripts.Count + misEng.Count + misJap.Count} System Script ({_extension}) entries:");
+            Logger.BatchLog($"  {scripts.Count} valid entries - ");
+            Logger.BatchLog($"  {misEng.Count} mismatch \"no Jap\" entries - {dbgMisEng.ToString()}");
+            Logger.BatchLog($"  {misJap.Count} mismatch \"no Eng\" entries - {dbgMisJap.ToString()}");
 
             return true;
         }
@@ -570,7 +573,7 @@ namespace NepTrans
                 }
                 else
                 {
-                    Console.WriteLine($"file {s} doesn't exist and will be created.");
+                    Logger.Log($"file {s} doesn't exist and will be created.");
                     FileStream fs = File.Create(s);
                     fs.Close();
                 }
@@ -695,7 +698,7 @@ namespace NepTrans
                 }
                 else
                 {
-                    Console.WriteLine($"file {ve} doesn't exist and will be created.");
+                    Logger.Log($"file {ve} doesn't exist and will be created.");
                     FileStream fs = File.Create(ve);
                     fs.Close();
                 }
@@ -723,7 +726,7 @@ namespace NepTrans
 
                 File.WriteAllText(sv, sb.ToString(), Encoding.UTF8);
             }
-            Console.WriteLine($"{GameScriptEntries.Count} Game Script entries written (total {count} records).");
+            Logger.Log($"{GameScriptEntries.Count} Game Script entries written (total {count} records).");
             return true;
         }
 
@@ -745,7 +748,7 @@ namespace NepTrans
 
                 File.WriteAllText(sv, sb.ToString(), Encoding.UTF8);
             }
-            Console.WriteLine($"{SystemScriptEntries.Count} System Script entries written (total {count} records).");
+            Logger.Log($"{SystemScriptEntries.Count} System Script entries written (total {count} records).");
             return true;
         }
     }

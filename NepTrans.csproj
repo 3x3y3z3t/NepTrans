@@ -50,11 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Datastruct.cs" />
-    <Compile Include="DLCEntryManager.cs" />
-    <Compile Include="EntryManager.cs" />
-    <Compile Include="Error.cs" />
-    <Compile Include="ExtensionMethod\SafeIvoker.cs" />
+    <Compile Include="Extension\Logger.cs" />
+    <Compile Include="src\Datastruct.cs" />
+    <Compile Include="src\DLCEntryManager.cs" />
+    <Compile Include="src\EntryManager.cs" />
+    <Compile Include="src\Error.cs" />
+    <Compile Include="Extension\SafeIvoker.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
