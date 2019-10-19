@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ExwSharp;
+using System;
 using System.Windows.Forms;
 
 namespace NepTrans
@@ -14,6 +12,7 @@ namespace NepTrans
         [STAThread]
         static void Main()
         {
+            Logger.LogTarget = LogTarget.Console | LogTarget.File;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

@@ -1,4 +1,5 @@
 ﻿// ;
+using ExwSharp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -49,7 +50,7 @@ namespace NepTrans
         {
             if (EntryManager == null)
             {
-                Console.WriteLine("Invalid EntryManager.");
+                Logger.Log("SummaryReportForm.UpdateProgressDisplay() -> Invalid EntryManager.");
                 return false;
             }
 
@@ -73,10 +74,10 @@ namespace NepTrans
         {
             if (EntryManager == null)
             {
-                Console.WriteLine("SummaryReportForm.pnlReport_Paint() -> Invalid EntryManager.");
+                Logger.Log("SummaryReportForm.pnlReport_Paint() -> Invalid EntryManager.");
                 //return;
             }
-            
+
             float gpercent = (float)game / overall;
 
             // FillPie() startAngle starts from 3h position;
