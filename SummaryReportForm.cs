@@ -1,5 +1,4 @@
 ﻿// ;
-using ExwSharp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -50,7 +49,7 @@ namespace NepTrans
         {
             if (EntryManager == null)
             {
-                Logger.Log("SummaryReportForm.UpdateProgressDisplay() -> Invalid EntryManager.");
+                Console.WriteLine("Invalid EntryManager.");
                 return false;
             }
 
@@ -74,7 +73,7 @@ namespace NepTrans
         {
             if (EntryManager == null)
             {
-                Logger.Log("SummaryReportForm.pnlReport_Paint() -> Invalid EntryManager.");
+                Console.WriteLine("SummaryReportForm.pnlReport_Paint() -> Invalid EntryManager.");
                 //return;
             }
             

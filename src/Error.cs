@@ -6,10 +6,10 @@ namespace NepTrans
 {
     public struct NepError
     {
-        //static readonly Dictionary<NepErrCode, string> ErrorString = new Dictionary<NepErrCode, string>
-        //{
-        //    {NepErrCode.NoError, "No Error."},
-        //};
+        static readonly Dictionary<NepErrCode, string> ErrorString = new Dictionary<NepErrCode, string>
+        {
+            {NepErrCode.NoError, "No Error."},
+        };
         public static NepError NoError = new NepError()
         {
             ErrorCode = NepErrCode.NoError,
@@ -25,21 +25,21 @@ namespace NepTrans
             ExtraInfo = _info;
         }
 
-        //public static string GetErrorString(NepErrCode _errCode)
-        //{
-        //    try
-        //    {
-        //        return ErrorString[_errCode];
-        //    }
-        //    catch (KeyNotFoundException)
-        //    {
-        //        return $"There is no description for this error: {_errCode}";
-        //    }
-        //}
+        public static string GetErrorString(NepErrCode _errCode)
+        {
+            try
+            {
+                return ErrorString[_errCode];
+            }
+            catch (KeyNotFoundException)
+            {
+                return $"There is no description for this error: {_errCode}";
+            }
+        }
 
         public override string ToString()
         {
-            return $"Error {ErrorCode}({(int)ErrorCode}): {ExtraInfo}";
+            return $"Error {ErrorCode}: {ExtraInfo}";
         }
     }
 
