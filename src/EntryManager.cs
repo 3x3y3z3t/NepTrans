@@ -156,10 +156,12 @@ namespace NepTrans
                 if (error.ErrorCode != NepErrCode.NoError)
                 {
                     Console.WriteLine(error);
-
+                    throw new Exception($"Entry Manager '{Name}' data population failure. Please reopen the program.");
                 }
             }
         }
+
+        ~NepEntryManager() { }
 
         /// <summary>Validate the directory structure integrity.</summary>
         public NepError ValidateDirectoryStructure()
@@ -284,6 +286,8 @@ namespace NepTrans
             Console.WriteLine();
             if (!ParseSystemScriptEntries())
                 Console.WriteLine("No script found in System Script directory. Please verify and try again.");
+
+            Console.WriteLine("===== Data Populating Successfully =====\r\n========================================\r\n");
 
             return NepError.NoError; // TODO: remove this;
         }

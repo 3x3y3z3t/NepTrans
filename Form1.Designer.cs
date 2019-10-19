@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tbRootDirectory = new System.Windows.Forms.TextBox();
             this.dgvWorkspace = new System.Windows.Forms.DataGridView();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -78,29 +78,32 @@
             this.tbRootDirectory.Name = "tbRootDirectory";
             this.tbRootDirectory.Size = new System.Drawing.Size(875, 20);
             this.tbRootDirectory.TabIndex = 0;
+            this.tbRootDirectory.TextChanged += new System.EventHandler(this.tbRootDirectory_TextChanged);
             // 
             // dgvWorkspace
             // 
             this.dgvWorkspace.AllowUserToAddRows = false;
             this.dgvWorkspace.AllowUserToDeleteRows = false;
+            this.dgvWorkspace.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvWorkspace.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colId,
             this.colTextEng,
             this.colTextJap,
             this.colTextVie});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvWorkspace.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvWorkspace.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvWorkspace.Location = new System.Drawing.Point(286, 67);
             this.dgvWorkspace.MultiSelect = false;
             this.dgvWorkspace.Name = "dgvWorkspace";
             this.dgvWorkspace.ReadOnly = true;
             this.dgvWorkspace.RowHeadersWidth = 25;
+            this.dgvWorkspace.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvWorkspace.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvWorkspace.Size = new System.Drawing.Size(982, 250);
             this.dgvWorkspace.TabIndex = 1;
@@ -146,7 +149,7 @@
             // 
             this.checkUseCurrentDir.AutoSize = true;
             this.checkUseCurrentDir.Enabled = false;
-            this.checkUseCurrentDir.Location = new System.Drawing.Point(248, 42);
+            this.checkUseCurrentDir.Location = new System.Drawing.Point(249, 42);
             this.checkUseCurrentDir.Name = "checkUseCurrentDir";
             this.checkUseCurrentDir.Size = new System.Drawing.Size(127, 17);
             this.checkUseCurrentDir.TabIndex = 2;
@@ -250,12 +253,13 @@
             // 
             // btnSelectRootDir
             // 
-            this.btnSelectRootDir.Location = new System.Drawing.Point(92, 38);
+            this.btnSelectRootDir.Location = new System.Drawing.Point(974, 10);
             this.btnSelectRootDir.Name = "btnSelectRootDir";
             this.btnSelectRootDir.Size = new System.Drawing.Size(150, 23);
             this.btnSelectRootDir.TabIndex = 10;
             this.btnSelectRootDir.Text = "Select Directory";
             this.btnSelectRootDir.UseVisualStyleBackColor = true;
+            this.btnSelectRootDir.Click += new System.EventHandler(this.btnSelectRootDir_Click);
             // 
             // btnUpdate
             // 
@@ -386,7 +390,7 @@
             // btnVerifyDirectory
             // 
             this.btnVerifyDirectory.Enabled = false;
-            this.btnVerifyDirectory.Location = new System.Drawing.Point(974, 10);
+            this.btnVerifyDirectory.Location = new System.Drawing.Point(93, 38);
             this.btnVerifyDirectory.Name = "btnVerifyDirectory";
             this.btnVerifyDirectory.Size = new System.Drawing.Size(150, 23);
             this.btnVerifyDirectory.TabIndex = 26;
@@ -491,6 +495,7 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.dgvWorkspace)).EndInit();
             this.groupTextEng.ResumeLayout(false);
             this.groupTextEng.PerformLayout();

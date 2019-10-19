@@ -54,6 +54,7 @@
     <Compile Include="DLCEntryManager.cs" />
     <Compile Include="EntryManager.cs" />
     <Compile Include="Error.cs" />
+    <Compile Include="ExtensionMethod\SafeIvoker.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,5 +104,6 @@
   <ItemGroup>
     <None Include="res\CopyToClipboard_16x.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,5 +1,7 @@
 // ;
 using System;
+using System.Data;
+using System.Data.Common;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -20,13 +22,10 @@ namespace NepTrans
         {
             InitializeComponent();
 
-            MainGameEntryManager = new NepEntryManager("nep_rb1", defaultRootDir, nepRb1RootDir);
+            tbRootDirectory.Text = defaultRootDir; // this implicitly called InitEntryManager();
+            //InitEntryManager();
 
-            treeDirStruct.Nodes.Add(MainGameEntryManager.EntriesTree);
 
-
-            SetupProgressDisplay();
-            UpdateProgressDisplay();
 
 
             btnUpdate.Enabled = false;
@@ -36,6 +35,28 @@ namespace NepTrans
 
             treeDirStruct.ExpandAll();
 
+
+
+        }
+
+        private bool InitEntryManager()
+        {
+            try
+            {
+                MainGameEntryManager = new NepEntryManager("nep_rb1", tbRootDirectory.Text, nepRb1RootDir);
+                treeDirStruct.Nodes.Clear();
+                treeDirStruct.Nodes.Add(MainGameEntryManager.EntriesTree);
+
+                SetupProgressDisplay();
+                UpdateProgressDisplay();
+
+                return true;
+            }
+            catch (Exception _e)
+            {
+                Console.WriteLine(_e.Message);
+                return false;
+            }
         }
 
         private bool SetupProgressDisplay()
@@ -191,15 +212,25 @@ namespace NepTrans
 
         private void SaveProject()
         {
-            Console.WriteLine("======================");
-            Console.WriteLine("    Saving data...");
+            if (MainGameEntryManager == null)
+            {
+
+                return;
+            }
+            Console.WriteLine("======================\r\n    Saving data...");
             NepError err = MainGameEntryManager.SaveData();
             Console.WriteLine(err);
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SaveProject();
+            //SaveProject();
+            Console.WriteLine("======================\r\n    Closing form...");
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Console.WriteLine("===== Form Closed =====");
         }
 
         private void treeDirStruct_AfterSelect(object sender, TreeViewEventArgs e)
@@ -327,9 +358,13 @@ namespace NepTrans
                 }
                 else if (ModifierKeys == Keys.Shift && e.KeyCode == Keys.Enter)
                 {
-
                     ApplyRecord();
                     PreviousRecord();
+                    e.SuppressKeyPress = true;
+                }
+                else if (ModifierKeys == Keys.Alt && e.KeyCode == Keys.Enter)
+                {
+                    ApplyRecord();
                     e.SuppressKeyPress = true;
                 }
             }
@@ -380,6 +415,21 @@ namespace NepTrans
                 string text = tbTextVie.Text.Replace("\r\n", "\\n\r\n");
                 Clipboard.SetText(text);
             }
+        }
+
+        private void btnSelectRootDir_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            DialogResult result = fbd.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                tbRootDirectory.Text = fbd.SelectedPath;
+            }
+        }
+
+        private void tbRootDirectory_TextChanged(object sender, EventArgs e)
+        {
+            InitEntryManager();
         }
     }
 }
